@@ -1,107 +1,21 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Parent class
-class Vehicle {
-    int vehicleId;
-    String vehicleName;
-    String vehicleType;
-    double pricePerDay;
-    boolean available;
-
-    // Constructor
-    Vehicle(int vehicleId, String vehicleName,
-            String vehicleType, double pricePerDay) {
-
-        this.vehicleId = vehicleId;
-        this.vehicleName = vehicleName;
-        this.vehicleType = vehicleType;
-        this.pricePerDay = pricePerDay;
-        this.available = true;
-    }
-
-    // Display vehicle details
-    void displayVehicle() {
-        System.out.printf("%-10d %-15s %-10s %-12.2f %-12s%n",
-                vehicleId,
-                vehicleName,
-                vehicleType,
-                pricePerDay,
-                available ? "Available" : "Rented");
-    }
-}
-
-// Customer class
-class Customer {
-    int customerId;
-    String customerName;
-    String phoneNumber;
-
-    Customer(int customerId, String customerName,
-             String phoneNumber) {
-
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.phoneNumber = phoneNumber;
-    }
-}
-
-// Rental class
-class Rental {
-    Customer customer;
-    Vehicle vehicle;
-    int numberOfDays;
-    double totalAmount;
-
-    Rental(Customer customer, Vehicle vehicle,
-           int numberOfDays) {
-
-        this.customer = customer;
-        this.vehicle = vehicle;
-        this.numberOfDays = numberOfDays;
-
-        this.totalAmount =
-                vehicle.pricePerDay * numberOfDays;
-    }
-
-    // Display rental details
-    void displayRental() {
-
-        System.out.println("----------------------------------------");
-        System.out.println("Customer ID   : " + customer.customerId);
-        System.out.println("Customer Name : " + customer.customerName);
-        System.out.println("Phone Number  : " + customer.phoneNumber);
-        System.out.println("Vehicle ID    : " + vehicle.vehicleId);
-        System.out.println("Vehicle Name  : " + vehicle.vehicleName);
-        System.out.println("Vehicle Type  : " + vehicle.vehicleType);
-        System.out.println("Price/Day     : Rs." + vehicle.pricePerDay);
-        System.out.println("Rental Days   : " + numberOfDays);
-        System.out.println("Total Amount  : Rs." + totalAmount);
-        System.out.println("----------------------------------------");
-    }
-}
-
-// Main class
 public class VehicleRentalSystem {
 
     static Scanner sc = new Scanner(System.in);
 
-    static ArrayList<Vehicle> vehicles =
-            new ArrayList<>();
-
-    static ArrayList<Rental> rentals =
-            new ArrayList<>();
+    static ArrayList<Vehicle> vehicles = new ArrayList<>();
+    static ArrayList<Rental> rentals = new ArrayList<>();
 
     static int customerCounter = 1001;
 
     // Add vehicle
     static void addVehicle() {
-
         System.out.println("\n========== ADD VEHICLE ==========");
 
         System.out.print("Enter Vehicle ID: ");
         int id = sc.nextInt();
-
         sc.nextLine();
 
         System.out.print("Enter Vehicle Name: ");
@@ -113,9 +27,7 @@ public class VehicleRentalSystem {
         System.out.print("Enter Price Per Day: ");
         double price = sc.nextDouble();
 
-        Vehicle vehicle =
-                new Vehicle(id, name, type, price);
-
+        Vehicle vehicle = new Vehicle(id, name, type, price);
         vehicles.add(vehicle);
 
         System.out.println("Vehicle added successfully!");
@@ -123,23 +35,15 @@ public class VehicleRentalSystem {
 
     // Display all vehicles
     static void displayVehicles() {
-
         if (vehicles.isEmpty()) {
             System.out.println("\nNo vehicles available.");
             return;
         }
 
         System.out.println("\n================ VEHICLE LIST ================");
-
         System.out.printf("%-10s %-15s %-10s %-12s %-12s%n",
-                "ID",
-                "Name",
-                "Type",
-                "Price/Day",
-                "Status");
-
-        System.out.println(
-                "------------------------------------------------------------");
+                "ID", "Name", "Type", "Price/Day", "Status");
+        System.out.println("------------------------------------------------------------");
 
         for (Vehicle v : vehicles) {
             v.displayVehicle();
@@ -148,30 +52,19 @@ public class VehicleRentalSystem {
 
     // Display available vehicles
     static void displayAvailableVehicles() {
-
         boolean found = false;
 
         System.out.println("\n=========== AVAILABLE VEHICLES ===========");
-
-        System.out.printf("%-10s %-15s %-10s %-12s%n",
-                "ID",
-                "Name",
-                "Type",
-                "Price/Day");
-
-        System.out.println(
-                "------------------------------------------------");
+        System.out.printf("%-10s %-15s %-10s %-12s%n", "ID", "Name", "Type", "Price/Day");
+        System.out.println("------------------------------------------------");
 
         for (Vehicle v : vehicles) {
-
-            if (v.available) {
-
+            if (v.isAvailable()) {
                 System.out.printf("%-10d %-15s %-10s %-12.2f%n",
-                        v.vehicleId,
-                        v.vehicleName,
-                        v.vehicleType,
-                        v.pricePerDay);
-
+                        v.getVehicleId(),
+                        v.getVehicleName(),
+                        v.getVehicleType(),
+                        v.getPricePerDay());
                 found = true;
             }
         }
@@ -183,20 +76,16 @@ public class VehicleRentalSystem {
 
     // Find vehicle using ID
     static Vehicle findVehicle(int id) {
-
         for (Vehicle v : vehicles) {
-
-            if (v.vehicleId == id) {
+            if (v.getVehicleId() == id) {
                 return v;
             }
         }
-
         return null;
     }
 
     // Rent vehicle
     static void rentVehicle() {
-
         if (vehicles.isEmpty()) {
             System.out.println("No vehicles available.");
             return;
@@ -214,7 +103,7 @@ public class VehicleRentalSystem {
             return;
         }
 
-        if (!vehicle.available) {
+        if (!vehicle.isAvailable()) {
             System.out.println("Vehicle is already rented.");
             return;
         }
@@ -235,29 +124,21 @@ public class VehicleRentalSystem {
             return;
         }
 
-        Customer customer =
-                new Customer(customerCounter++, name, phone);
-
-        Rental rental =
-                new Rental(customer, vehicle, days);
+        Customer customer = new Customer(customerCounter++, name, phone);
+        Rental rental = new Rental(customer, vehicle, days);
 
         rentals.add(rental);
 
         // Change vehicle status
-        vehicle.available = false;
+        vehicle.setAvailable(false);
 
         System.out.println("\nVehicle rented successfully!");
-
-        System.out.println("Customer ID: "
-                + customer.customerId);
-
-        System.out.println("Total Amount: Rs."
-                + rental.totalAmount);
+        System.out.println("Customer ID: " + customer.getCustomerId());
+        System.out.println("Total Amount: Rs." + rental.getTotalAmount());
     }
 
     // Return vehicle
     static void returnVehicle() {
-
         System.out.println("\n========== RETURN VEHICLE ==========");
 
         System.out.print("Enter Vehicle ID: ");
@@ -270,21 +151,19 @@ public class VehicleRentalSystem {
             return;
         }
 
-        if (vehicle.available) {
+        if (vehicle.isAvailable()) {
             System.out.println("This vehicle is not currently rented.");
             return;
         }
 
-        vehicle.available = true;
+        vehicle.setAvailable(true);
 
         System.out.println("Vehicle returned successfully!");
-        System.out.println("Vehicle " + vehicle.vehicleName
-                + " is now available.");
+        System.out.println("Vehicle " + vehicle.getVehicleName() + " is now available.");
     }
 
     // Display rental records
     static void displayRentalRecords() {
-
         if (rentals.isEmpty()) {
             System.out.println("\nNo rental records available.");
             return;
@@ -299,24 +178,15 @@ public class VehicleRentalSystem {
 
     // Main method
     public static void main(String[] args) {
-
         int choice;
 
         // Adding sample vehicles
-        vehicles.add(
-                new Vehicle(101, "Swift", "Car", 1500));
-
-        vehicles.add(
-                new Vehicle(102, "Creta", "Car", 2000));
-
-        vehicles.add(
-                new Vehicle(103, "Royal Enfield", "Bike", 800));
-
-        vehicles.add(
-                new Vehicle(104, "Activa", "Bike", 500));
+        vehicles.add(new Vehicle(101, "Swift", "Car", 1500));
+        vehicles.add(new Vehicle(102, "Creta", "Car", 2000));
+        vehicles.add(new Vehicle(103, "Royal Enfield", "Bike", 800));
+        vehicles.add(new Vehicle(104, "Activa", "Bike", 500));
 
         do {
-
             System.out.println("\n");
             System.out.println("==============================================");
             System.out.println("       VEHICLE RENTAL MANAGEMENT SYSTEM");
@@ -334,41 +204,30 @@ public class VehicleRentalSystem {
             choice = sc.nextInt();
 
             switch (choice) {
-
                 case 1:
                     addVehicle();
                     break;
-
                 case 2:
                     displayVehicles();
                     break;
-
                 case 3:
                     displayAvailableVehicles();
                     break;
-
                 case 4:
                     rentVehicle();
                     break;
-
                 case 5:
                     returnVehicle();
                     break;
-
                 case 6:
                     displayRentalRecords();
                     break;
-
                 case 7:
-                    System.out.println(
-                            "Thank you for using Vehicle Rental System!");
+                    System.out.println("Thank you for using Vehicle Rental System!");
                     break;
-
                 default:
-                    System.out.println(
-                            "Invalid choice! Please try again.");
+                    System.out.println("Invalid choice! Please try again.");
             }
-
         } while (choice != 7);
 
         sc.close();
