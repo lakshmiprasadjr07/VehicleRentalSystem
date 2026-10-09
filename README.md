@@ -18,13 +18,16 @@ A Java console-based Vehicle Rental Management System that allows managing vehic
 ```text
 VehicleRentalSystem/
 ├── .vscode/
-│   ├── launch.json          # VS Code launch configuration
-│   └── settings.json        # VS Code Java project paths
-├── bin/                     # Compiled .class files (git ignored)
+│   ├── launch.json              # VS Code launch configuration for terminal input
+│   └── settings.json            # VS Code Java project paths
+├── bin/                         # Compiled .class files (git ignored)
 ├── src/
-│   └── VehicleRentalSystem.java # Core application source code
-├── .gitignore               # Git ignore rules
-└── README.md                # Project documentation
+│   ├── Vehicle.java             # Part 1: Vehicle parent class (attributes, pricing, availability)
+│   ├── Customer.java            # Part 2: Customer entity (ID, name, phone)
+│   ├── Rental.java              # Part 3: Rental calculation and booking invoice
+│   └── VehicleRentalSystem.java # Part 4: Main application menu and rental management
+├── .gitignore                   # Git ignore rules (*.class, bin/)
+└── README.md                    # Project documentation
 ```
 
 ---
@@ -37,31 +40,18 @@ VehicleRentalSystem/
 3. Click the **Run** button (or press `F5`) to start with interactive terminal input.
 
 ### Option 2: Using Command Prompt / PowerShell
-1. Compile the Java file:
+1. Compile all Java source files:
    ```powershell
-   javac -d bin src/VehicleRentalSystem.java
+   javac -d bin src/*.java
    ```
-2. Run the application:
+2. Run the main application:
    ```powershell
    java -cp bin VehicleRentalSystem
    ```
 
 ---
 
-## 📦 Pushing to GitHub
+## 📦 GitHub Repository
 
-### Method A: From VS Code (Easiest)
-1. Open VS Code with this project folder.
-2. Click the **Source Control** icon on the left sidebar (or press `Ctrl + Shift + G`).
-3. Click **"Publish to GitHub"** (or **"Publish Branch"**).
-4. Select **Publish to GitHub public repository** (or private repository).
-5. VS Code will prompt you to authorize your GitHub account and push the code automatically.
-
-### Method B: Using Git Terminal
-1. Create a new repository on [GitHub](https://github.com/new).
-2. Run the following commands in the project directory:
-   ```powershell
-   git remote add origin https://github.com/<YOUR_USERNAME>/<REPO_NAME>.git
-   git branch -M main
-   git push -u origin main
-   ```
+- **Repository**: [https://github.com/lakshmiprasadjr07/VehicleRentalSystem](https://github.com/lakshmiprasadjr07/VehicleRentalSystem)
+- **Branch**: `main`
